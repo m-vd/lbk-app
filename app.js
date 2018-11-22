@@ -41,6 +41,6 @@ app.get("/services", function (req, res) {
     });
 });
 
-app.listen(3120, function (req, res) {
+app.listen(process.env.PORT || 3120, function (req, res) {
     console.log("App is running");
 })

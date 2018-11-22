@@ -1,7 +1,6 @@
 {
   "name": "lasti",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app",
@@ -15,5 +14,15 @@
     "express": "^4.16.4",
     "moment": "^2.22.2",
     "mongoose": "^5.3.13"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-vd/lbk-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/m-vd/lbk-app/issues"
+  },
+  "homepage": "https://github.com/m-vd/lbk-app#readme",
+  "description": ""
 }
