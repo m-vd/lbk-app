@@ -14,19 +14,17 @@ app.set("view engine", "ejs");
 //mongoose.connect("mongodb://localhost/lbk");
 
 app.get("/", function (req, res) {
-    console.log(req.headers.host);
-    console.log(req.originalUrl);
     res.render("index");
 });
 
 app.get("/login", function(req, res){
     if (req.query.ticket) {
-        var service = "service=" + encodeURIComponent(req.headers.host + req.originalUrl);
+        var service = "service=" + encodeURIComponent("https://"+req.headers.host + req.originalUrl);
         var ticket = "ticket=" + req.query.ticket;
         res.redirect("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket);
     } else {
         var itbloginuri = "https://login.itb.ac.id/cas/"
-        res.redirect(encodeURIComponent(itbloginuri + "login?service=" + req.headers.host + req.originalUrl))
+        res.redirect(encodeURIComponent(itbloginuri + "login?service=" + "https://"+ req.headers.host + req.originalUrl))
     }
 });
 
