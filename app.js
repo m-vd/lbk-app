@@ -1,0 +1,32 @@
+var express = require('express'),
+    app = express(),
+    bodyParser = require('body-parser'),
+    moment = require('moment'),
+    mongoose = require('mongoose');
+
+var Psychologist = require('./models/psychologist'),
+    Student = require('./models/student');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + "/views"));
+app.set("view engine", "ejs");
+
+mongoose.connect("mongodb://localhost/lbk");
+
+app.get("/", function (req, res) {
+    res.render("index");
+})
+
+app.get("/services", function (req, res) {
+    Psychologist.find({}, function(err, allPyschologists){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("services", {moment: moment, psychologists: allPyschologists});
+        }
+    });
+});
+
+app.listen(3120, function (req, res) {
+    console.log("App is running");
+})
