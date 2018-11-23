@@ -27,14 +27,15 @@ app.get("/login", function(req, res){
         res.send("cookie detected");
     } else {
         if (req.query.ticket) {
-            var service = "service=" + encodeURI("https://" + req.headers.host + req.originalUrl);
+            console.log(req.headers);
+            var service = "service=" + encodeURI("https://" + req.headers.host + "/login");
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, res, body) {
                 console.log(body);
             });
             res.send(body);
         } else {
-            res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://"+ req.headers.host + req.originalUrl))
+            res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://"+ req.headers.host + "/login"))
         }
     }
 });
