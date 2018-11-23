@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/views"));
 app.set("view engine", "ejs");
 
-mongoose.connect("mongodb://localhost/lbk");
+//mongoose.connect("mongodb://localhost/lbk");
 
 app.get("/", function (req, res) {
     res.render("index");
@@ -31,7 +31,7 @@ app.get("/login", function(req, res){
             console.log(req.headers);
             var service = "service=" + encodeURI("https://" + req.headers.host + "/login");
             var ticket = "ticket=" + req.query.ticket;
-            request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, res, body) {
+            request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, response, body) {
                 a = parseXML(body);
                 res.send(a);
 
