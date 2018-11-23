@@ -33,7 +33,7 @@ app.get("/login", function(req, res){
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, res, body) {
                 console.log(body);
             });
-            res.send(body);
+            res.redirect("/");
         } else {
             res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://"+ req.headers.host + "/login"))
         }
