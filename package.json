@@ -1,6 +1,6 @@
 {
   "name": "lasti",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "main": "app.js",
   "scripts": {
     "start": "node app",
@@ -10,10 +10,12 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "moment": "^2.22.2",
-    "mongoose": "^5.3.13"
+    "mongoose": "^5.3.13",
+    "request": "^2.88.0"
   },
   "devDependencies": {},
   "repository": {
