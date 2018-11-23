@@ -39,6 +39,7 @@ app.get("/login", function(req, res){
                     } else {
                         console.log(result);
                         console.log(result.authenticationSuccess);
+                        res.send(JSON.stringify(result));
                     }
                 });
 
