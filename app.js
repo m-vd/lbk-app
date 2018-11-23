@@ -28,11 +28,12 @@ app.get("/login", function(req, res){
         res.send("cookie detected");
     } else {
         if (req.query.ticket) {
-            console.log(req.headers);
             var service = "service=" + encodeURI("https://" + req.headers.host + "/login");
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, response, body) {
+                console.log(body);
                 a = parseXML(body);
+                console.log(a);
                 res.send(a);
 
             });
