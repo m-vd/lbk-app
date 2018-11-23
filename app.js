@@ -4,6 +4,7 @@ var express = require('express'),
     moment = require('moment'),
     request = require('request'),
     cookieParser = require('cookie-parser'),
+    parseXML = require('xml2js').parseString,
     mongoose = require('mongoose');
 
 var Psychologist = require('./models/psychologist'),
@@ -31,9 +32,10 @@ app.get("/login", function(req, res){
             var service = "service=" + encodeURI("https://" + req.headers.host + "/login");
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, res, body) {
-                console.log(body);
+                a = parseXML(body);
+                res.send(a);
+
             });
-            res.redirect("/");
         } else {
             res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://"+ req.headers.host + "/login"))
         }
