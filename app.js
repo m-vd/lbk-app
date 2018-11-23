@@ -5,6 +5,7 @@ var express = require('express'),
     request = require('request'),
     cookieParser = require('cookie-parser'),
     parseXML = require('xml2js').parseString,
+    stripNS = require('xml2js').processors.stripPrefix,
     mongoose = require('mongoose');
 
 var Psychologist = require('./models/psychologist'),
@@ -32,7 +33,13 @@ app.get("/login", function(req, res){
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, response, body) {
                 console.log(body);
-                a = parseXML(body);
+                a = parseXML(body, {tagNameProcessors: [stripNS]}, function(err, result){
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(result);
+                    }
+                });
                 console.log(a);
                 res.send(a);
 
