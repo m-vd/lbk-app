@@ -32,13 +32,11 @@ app.get("/login", function(req, res){
             var service = "service=" + encodeURI("https://" + req.headers.host + "/login");
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, response, body) {
-                console.log(body);
                 parseXML(body, {tagNameProcessors: [stripNS]}, function(err, result){
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(result);
-                        auth = (JSON.stringify(result));
+                        auth = result;
                         console.log(auth);
                         console.log("-----");
                         console.log(auth.serviceResponse);
