@@ -33,15 +33,14 @@ app.get("/login", function(req, res){
             var ticket = "ticket=" + req.query.ticket;
             request("https://login.itb.ac.id/cas/serviceValidate?" + service + "&" + ticket, function(err, response, body) {
                 console.log(body);
-                a = parseXML(body, {tagNameProcessors: [stripNS]}, function(err, result){
+                parseXML(body, {tagNameProcessors: [stripNS]}, function(err, result){
                     if (err) {
                         console.log(err);
                     } else {
                         console.log(result);
+                        console.log(result.authenticationSuccess);
                     }
                 });
-                console.log(a);
-                res.send(a);
 
             });
         } else {
