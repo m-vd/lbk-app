@@ -38,8 +38,12 @@ app.get("/login", function(req, res){
                         console.log(err);
                     } else {
                         console.log(result);
-                        console.log(result.authenticationSuccess);
-                        res.send(JSON.stringify(result));
+                        auth = (JSON.stringify(result));
+                        console.log(auth);
+                        console.log("-----");
+                        console.log(auth.serviceResponse);
+                        console.log("-----");
+                        console.log(auth.serviceResponse.authenticationSuccess.user);
                     }
                 });
 

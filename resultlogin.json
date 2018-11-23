@@ -1,0 +1,39 @@
+{
+    "serviceResponse": {
+        "$": {
+            "xmlns:cas": "http://www.yale.edu/tp/cas"
+        },
+        "authenticationSuccess": [
+            {
+                "user": [
+                    "ivan.wiryadi"
+                ],
+                "attributes": [
+                    {
+                        "cn": [
+                            "Ivan"
+                        ],
+                        "mail": [
+                            "Ivan.Wiryadi@students.itb.ac.id"
+                        ],
+                        "sn": [
+                            "Ivan"
+                        ],
+                        "ou": [
+                            "STEI - Sistem dan Teknologi Informasi"
+                        ],
+                        "itbStatus": [
+                            "Mahasiswa"
+                        ],
+                        "itbNIM": [
+                            "[18216017, 16516399]"
+                        ],
+                        "itbEmailNonITB": [
+                            "mikvadi.9@gmail.com"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
