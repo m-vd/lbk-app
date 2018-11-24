@@ -35,10 +35,10 @@ app.use((req, res, next) => {
     next();
 });
 
-//mongoose.connect("mongodb://localhost/lbk");
+mongoose.connect(process.env.database_uri || "mongodb://localhost/lbk");
 
 app.get("/", function (req, res) {
-    res.render("index");
+    res.render("index", {account: ""});
 });
 
 app.get("/login", function(req, res){
