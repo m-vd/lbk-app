@@ -2,7 +2,9 @@ var mongoose = require('mongoose')
 
 var studentSchema = new mongoose.Schema({
     name    : String,
-    nim     : Number,
+    nim     : String,
+    prodi   : String,
+    email   : String
 });
 
 module.exports = mongoose.model("Student", studentSchema);

@@ -4,6 +4,7 @@ var express = require('express'),
     moment = require('moment'),
     request = require('request'),
     cookieParser = require('cookie-parser'),
+
     parseXML = require('xml2js').parseString,
     stripNS = require('xml2js').processors.stripPrefix,
     mongoose = require('mongoose');
@@ -14,9 +15,24 @@ var Psychologist = require('./models/psychologist'),
     Session = require('./models/session');
 
 app.use(cookieParser());
+app.use(require("express-session")({
+    key: "JSESSIONID",
+	resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: 600000
+    }
+}));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/views"));
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+    if (req.cookies.JSESSIONID && !req.session.user) {
+        res.clearCookie('JSESSIONID');        
+    }
+    next();
+});
 
 //mongoose.connect("mongodb://localhost/lbk");
 
@@ -36,15 +52,28 @@ app.get("/login", function(req, res){
                     if (err) {
                         console.log(err);
                     } else {
-                        auth = result;
-                        console.log(auth);
-                        console.log("-----");
-                        console.log(auth.serviceResponse);
-                        console.log("-----");
-                        console.log(auth.serviceResponse.authenticationSuccess.user);
+                        if (result.serviceResponse.authenticationSuccess && result.serviceResponse.authenticationSuccess.length) {
+                            var newStudent = {
+                                studentName: result.serviceResponse.authenticationSuccess[0].attributes[0].cn,
+                                nim: result.serviceResponse.authenticationSuccess[0].attributes[0].itbNIM[0],
+                                prodi: result.serviceResponse.authenticationSuccess[0].attributes[0].ou[0],
+                                email: result.serviceResponse.authenticationSuccess[0].attributes[0].mail[0]
+                            }
+
+                            Student.create(newStudent, function (err, newStudent){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Mahasiswa baru ditambahkan ke dalam database");
+                                    req.session.user = newStudent;
+                                    res.redirect("/", {account: newStudent});
+                                }
+                            });
+                        } else {
+                            res.redirect("/login");
+                        }
                     }
                 });
-
             });
         } else {
             res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://"+ req.headers.host + "/login"))
@@ -58,6 +87,8 @@ app.get("/services", function (req, res) {
             console.log(err);
         } else {
             res.render("services", {moment: moment, psychologists: allPyschologists});
+            console.log(req.session.user);
+            console.log(req.session.JSESSIONID);
         }
     });
 });
@@ -80,6 +111,13 @@ function isEmpty(obj) {
             return false;
     }
     return true;
+}
+
+function isLoggedIn(req, res, next) {
+	if (req.cookies.JSESSIONID && !req.session.user) {
+		return next();
+	}
+	res.redirect("/login");
 }
 
 app.listen(process.env.PORT || 3120, function (req, res) {
