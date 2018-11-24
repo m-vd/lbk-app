@@ -55,7 +55,7 @@ app.get("/login", function(req, res){
                     } else {
                         if (result.serviceResponse.authenticationSuccess && result.serviceResponse.authenticationSuccess.length) {
                             var newStudent = {
-                                studentName: result.serviceResponse.authenticationSuccess[0].attributes[0].cn,
+                                name: result.serviceResponse.authenticationSuccess[0].attributes[0].cn,
                                 nim: result.serviceResponse.authenticationSuccess[0].attributes[0].itbNIM[0],
                                 prodi: result.serviceResponse.authenticationSuccess[0].attributes[0].ou[0],
                                 email: result.serviceResponse.authenticationSuccess[0].attributes[0].mail[0]
@@ -67,7 +67,7 @@ app.get("/login", function(req, res){
                                 } else {
                                     console.log("Mahasiswa baru ditambahkan ke dalam database");
                                     req.session.user = newStudent;
-                                    res.redirect("/", {account: newStudent});
+                                    res.redirect("/");
                                 }
                             });
                         } else {
