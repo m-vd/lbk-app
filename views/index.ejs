@@ -1,8 +1,10 @@
 <% include ./partials/header.ejs %>
 
 <H1>Test</H1>
-<ul>
-    <li><%=account.nim%></li>
-    <li><%=account.studentName%></li>
-</ul>
+<% if (account) { %> 
+    <ul>
+        <li><%=account.nim%></li>
+        <li><%=account.studentName%></li>
+    </ul>
+<% } %>
 <% include ./partials/footer.ejs %>
