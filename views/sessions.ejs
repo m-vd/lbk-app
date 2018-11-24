@@ -1,7 +1,7 @@
 <% include ./partials/header.ejs %>
 
 <table>
-    <% sessions.forEach(function (session){
+    <% sessions.forEach(function (session){ %>
         <tr><%=session.student.name%></tr>
         <tr><%=session.student.psychologist%></tr>
         <form action="/sessions/<%=session._id%>" method="post">
@@ -9,7 +9,7 @@
         <input type="submit">
 
         </form>
-    })
+    <% }) %>
 </table>
 
 <% include ./partials/footer.ejs %>

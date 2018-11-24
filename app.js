@@ -94,7 +94,7 @@ app.get("/services", isLoggedIn, function (req, res) {
 });
 
 app.post("/services", isLoggedIn, function (req, res) {
-    req.body.request.date = moment(req.body.request.date, "hh:mm DD-MM-YYYY").toDate();
+    req.body.request.date = moment(req.body.request.date, "HH:mm MM-DD-YYYY").toDate();
     Request.create(req.body.request, function (err, request) {
         if (err) {
             console.log(err)
