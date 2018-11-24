@@ -8,7 +8,8 @@ var requestSchema = new mongoose.Schema({
     name : String, 
     nim  : String,
     type : String,
-    date : Date
+    date : Date,
+    status: String
 
 });
 

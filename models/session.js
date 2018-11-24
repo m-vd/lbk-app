@@ -11,6 +11,7 @@ var sessionSchema = new mongoose.Schema({
     },
     startTime: Date,
     endTime:Date,
+    remarks : []
 
 });
 

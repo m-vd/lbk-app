@@ -3,13 +3,13 @@
 <div class="container">
     <form action="/services" method="post">
         <div class="form-group">
-            <input type="text" class="form-control" name="request[name]" placeholder="Nama anda">
+            <input type="text" class="form-control" name="request[name]" value="<%=user.name%>" disabled>
         </div>
         <div class="form-group">
-            <input type="text" class="form-control" name="request[nim]" placeholder="Nim anda">
+            <input type="text" class="form-control" name="request[nim]" value="<%=user.nim%>" disabled>
         </div>
         <div class="form-group">
-            <select class="form-control" name="request[type]">
+            <select class="form-control" name="request[type]" required>
                 <option value="konseling">Konseling</option>
                 <option value="terapi">Terapi</option>
                 <option value="seminar">Seminar</option>
@@ -18,7 +18,7 @@
             </select>
         </div>
         <div class="form-group">
-            <input id="input" width="312" name="request[date]" />
+            <input id="input" width="312" name="request[date]" required />
             <script>
                 $('#input').datetimepicker({ footer: true, modal: true });
             </script>

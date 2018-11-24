@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 var psychologistSchema = new mongoose.Schema({
     name    : String,
-    nim     : Number,
+    id     : Number,
     schedule: [{
         start   :Date,
         end     :Date

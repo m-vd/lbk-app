@@ -1,0 +1,29 @@
+<% include ./partials/header.ejs %>
+
+<ul>
+    <% requests.forEach(function req){ %>
+    <li>
+        <%=req.name%>
+    </li>
+    <li>
+        <%=req.nim%>
+    </li>
+    <li>
+        <%=req.type%>
+    </li>
+    <li>
+        <%=req.date%>
+    </li>
+    <% if (req.status == "pending") { %>
+        <form action="/request/<%=req._id%>" method="post">
+            <input type="hidden" name="psychologist" value="<%=user.name%>">
+            <input name="accepted" type="submit" class="btn btn-xs btn-success" value="accepted">
+            <input name="denied" type="submit" class="btn btn-xs btn-danger" value="denied">
+        </form>
+    <% } else { %>
+        <li>
+            <%=req.status%>
+        </li>
+    <% } %>
+</ul>
+<% include ./partials/footer.ejs %>
