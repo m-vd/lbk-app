@@ -17,8 +17,8 @@
     <% if (req.status == "pending") { %>
     <form action="/requests/<%=req._id%>" method="post">
         <input type="hidden" name="psychologist" value="<%=user.name%>">
-        <input name="accepted" type="submit" class="btn btn-xs btn-success" value="accepted">
-        <input name="denied" type="submit" class="btn btn-xs btn-danger" value="denied">
+        <input name="accepted" type="submit" class="btn btn-xs btn-success" value="accept">
+        <input name="denied" type="submit" class="btn btn-xs btn-danger" value="deny">
     </form>
     <% } else { %>
     <li>

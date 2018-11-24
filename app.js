@@ -151,7 +151,10 @@ app.post("/requests/:id", isPsychologist, function (req, res) {
 });
 
 app.get("/sessions", isPsychologist, function (req, res) {
-    Session.find({}).populate('psychologist').populate('student').exec(function(allSessions){
+    Session.find({}).populate('psychologist').populate('student').exec(function(err, allSessions){
+        if (err) {
+            console.log(err);
+        }
         res.render("sessions", {sessions: allSessions});
     });
 })
