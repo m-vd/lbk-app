@@ -16,7 +16,7 @@ var Psychologist = require('./models/psychologist'),
 
 app.use(cookieParser());
 app.use(require("express-session")({
-    key: "JSESSIONID",
+    key: "user_sid",
     secret: "II3120 - IT Services",
 	resave: false,
     saveUninitialized: false,
@@ -29,8 +29,8 @@ app.use(express.static(__dirname + "/views"));
 app.set("view engine", "ejs");
 
 app.use((req, res, next) => {
-    if (req.cookies.JSESSIONID && !req.session.user) {
-        res.clearCookie('JSESSIONID');        
+    if (req.cookies.user_sid && !req.session.user) {
+        res.clearCookie('user_sid');        
     }
     next();
 });
@@ -65,7 +65,7 @@ app.get("/login", function(req, res){
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    console.log("Mahasiswa baru ditambahkan ke dalam database");
+                                    console.log("log    : Mahasiswa baru ditambahkan ke dalam database", newStudent.nim);
                                     req.session.user = newStudent;
                                     res.redirect("/");
                                 }
@@ -82,14 +82,14 @@ app.get("/login", function(req, res){
     }
 });
 
-app.get("/services", function (req, res) {
+app.get("/services", isLoggedIn, function (req, res) {
     Psychologist.find({}, function(err, allPyschologists){
         if (err) {
             console.log(err);
         } else {
-            res.render("services", {moment: moment, psychologists: allPyschologists});
+            res.render("services", {moment: moment});
             console.log(req.session.user);
-            console.log(req.session.JSESSIONID);
+            console.log(req.cookies.user_sid);
         }
     });
 });
@@ -115,7 +115,7 @@ function isEmpty(obj) {
 }
 
 function isLoggedIn(req, res, next) {
-	if (req.cookies.JSESSIONID && !req.session.user) {
+	if (req.cookies.user_sid && !req.session.user) {
 		return next();
 	}
 	res.redirect("/login");
