@@ -17,6 +17,7 @@ var Psychologist = require('./models/psychologist'),
 app.use(cookieParser());
 app.use(require("express-session")({
     key: "JSESSIONID",
+    secret: "II3120 - IT Services",
 	resave: false,
     saveUninitialized: false,
     cookie: {
