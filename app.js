@@ -151,20 +151,26 @@ app.post("/requests/:id", isPsychologist, function (req, res) {
 });
 
 app.get("/sessions", isPsychologist, function (req, res) {
-    Session.find({}).populate('psychologist').populate('student').exec(function(err, allSessions){
+    Session.find({}).populate('psychologist').populate('student').exec(function (err, allSessions) {
         if (err) {
             console.log(err);
         }
-        res.render("sessions", {sessions: allSessions});
+        res.render("sessions", { sessions: allSessions });
     });
 })
 
-app.post("/sessions/:id", isPsychologist, function(req, res) {
-    Session.findById(req.params.id, function(err, session){
-        if (req.body.remark.toLowerCase() == "selesai"){
-            console.log("log        : sesi selesai");
+app.post("/sessions/:id", isPsychologist, function (req, res) {
+    Session.findById(req.params.id, function (err, session) {
+        if (err) {
+            console.log(err);
         } else {
-            session.remarks.append(req.body.remark);
+            if (req.body.remark.toLowerCase() == "selesai") {
+                console.log("log        : sesi selesai");
+            } else {
+                session.remarks.push(req.body.remark);
+                session.save();
+                res.redirect("/");
+            }
         }
     });
 });
@@ -186,7 +192,7 @@ function isLoggedIn(req, res, next) {
 
 function isPsychologist(req, res, next) {
     if (req.cookies.user_sid && req.session.user) {
-        if (req.session.user.name == "Ivan"){
+        if (req.session.user.name == "Ivan") {
             console.log("log    : isPsychologist returning true")
             return next();
         }
