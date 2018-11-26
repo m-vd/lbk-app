@@ -104,7 +104,7 @@ app.post("/services", isLoggedIn, function (req, res) {
     req.body.request.date = moment(req.body.request.date, "HH:mm MM-DD-YYYY").toDate();
     var leastBusy;
 
-    Psychologists.find({}, function(err, allPyschologists){
+    Psychologist.find({}, function(err, allPyschologists){
         if (err) {
             console.log(err); 
         } else {
