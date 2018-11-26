@@ -181,7 +181,7 @@ app.get("/requests", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("requests", { requests: allRequests, user: req.session.user });
+            res.render("requests", { requests: allRequests, user: req.session.user, moment: moment });
         }
     });
 });
@@ -244,6 +244,18 @@ app.post("/sessionhistory", function (req, res) {
                     endTime: moment().format(),
                     remark: ""
                 }
+
+                Psychologist.findOne({ username: r.pscyhologist }, function (err, found) {
+                    if (err) { console.log(err); }
+                    else {
+                        found.schedule.forEach(function(s, i){
+                            if (s.start == r.startTime){
+                                found.schedule.splice(i,1);
+                            }
+                        })
+                    }
+                })
+
                 SessionHistory.create(sh, function (err, newSH) {
                     if (err) {
                         console.log(err);
