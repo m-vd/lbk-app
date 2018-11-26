@@ -158,7 +158,7 @@ app.post("/services", isLoggedIn, function (req, res) {
         });
 
         //Add request to the psychologist's schedule. 
-        Psychologist.find({ username: leastBusy.name }, function (err, found) {
+        Psychologist.findOne({ username: leastBusy.username }, function (err, found) {
             if (err) {
                 console.log(err);
             } else {
@@ -175,7 +175,7 @@ app.post("/services", isLoggedIn, function (req, res) {
     });
 });
 
-//FUCK THESE CODES!
+
 app.get("/requests", function (req, res) {
     Request.find({}, function (err, allRequests) {
         if (err) {
