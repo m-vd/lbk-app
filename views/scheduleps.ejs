@@ -1,0 +1,19 @@
+<% include ./partials/header.ejs %>
+
+<form action="/scheduleps" method="post">
+    <div class="form-group">
+        <input id="startTime" width="312" name="startTime" required />
+        <script>
+            $('#startTime').datetimepicker({ footer: true, modal: true });
+        </script>
+    </div>
+    <div class="form-group">
+        <input id="endTime" width="312" name="endTime" required />
+        <script>
+            $('#endTime').datetimepicker({ footer: true, modal: true });
+        </script>
+    </div>
+    <input type="submit">
+</form>
+
+<% include ./partials/footer.ejs %>

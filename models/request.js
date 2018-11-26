@@ -5,11 +5,10 @@ var requestSchema = new mongoose.Schema({
     //     type: mongoose.Schema.Types.ObjectId,
     //     ref : "Student"
     // },
-    name : String, 
-    nim  : String,
+    psychologist : String,
+    student  : String,
     type : String,
-    date : Date,
-    status: String
+    startTime : Date
 
 });
 
