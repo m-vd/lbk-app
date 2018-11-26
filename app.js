@@ -115,6 +115,7 @@ app.post("/services", isLoggedIn, function (req, res) {
                     if (moment(req.body.request.date).isBetween(eachPsychologistSchedule.start, eachPsychologistSchedule.end)){
                         eachPsychologist.available = false
                     }
+                console.log(eachPsychologist.available);
                 })
                 if (eachPsychologist.available) {
                     availablePsychologists.push(eachPsychologist);
