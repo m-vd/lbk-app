@@ -83,7 +83,8 @@ app.get("/login", function (req, res) {
                                         }
                                     });
                                 } else {
-                                    res.redirect("/")
+                                    req.session.user = found;
+                                    res.redirect("/");
                                 }
                             })
 
@@ -224,7 +225,7 @@ app.get("/sessionhistory", function (req, res) {
         if (err) {
             console.log(err);
         } else {
-            res.render("session", { sessions: allSessionHistory });
+            res.render("sessions", { sessions: allSessionHistory });
         }
     })
 });
