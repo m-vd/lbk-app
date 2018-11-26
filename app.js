@@ -133,6 +133,7 @@ app.post("/services", isLoggedIn, function (req, res) {
                 }
             });
         }
+
         //Create new request
         var newRequest = req.body.request;
         newRequest.psychologist = leastBusy.name;
@@ -143,10 +144,24 @@ app.post("/services", isLoggedIn, function (req, res) {
                 console.log(request);
             }
         });
+        
+        //Add request to the psychologist's schedule. 
+        Psychologist.find({username: leastBusy.name}, function(err, found){
+            if (err) {
+                console.log(err);
+            } else {
+                var addSchedule = {
+                    start: req.body.request.date,
+                    end : moment(req.body.request.date).add(2, "h")
+                }
+                found.schedule.push(addSchedule);
+                found.save();
+            }
+        });
+        
         res.redirect("/services");
     });
 });
-
 
 //FUCK THESE CODES!
 app.get("/requests", function (req, res) {

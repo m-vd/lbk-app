@@ -1,30 +1,36 @@
 <% include ./partials/header.ejs %>
 
-<ul>
+<table>
+    <tr>
+        <th>Mahasiswa</th>
+        <th>Psikolog</th>
+        <th>Jenis Layanan</th>
+        <th>Tanggal</th>
+    </tr>
     <% requests.forEach(function (req){ %>
-    <li>
-        <%=req.name%>
-    </li>
-    <li>
-        <%=req.nim%>
-    </li>
-    <li>
-        <%=req.type%>
-    </li>
-    <li>
-        <%=req.date%>
-    </li>
-    <% if (req.status == "pending") { %>
-    <form action="/requests/<%=req._id%>" method="post">
-        <input type="hidden" name="psychologist" value="<%=user.name%>">
-        <input name="accepted" type="submit" class="btn btn-xs btn-success" value="accept">
-        <input name="denied" type="submit" class="btn btn-xs btn-danger" value="deny">
-    </form>
-    <% } else { %>
-    <li>
-        <%= req.status %>
-    </li>
-    <% } %>
+    <tr>
+        <td>
+            <%=req.student%>
+        </td>
+        <td>
+            <%=req.psychologist%>
+        </td>
+        <td>
+            <%=req.type%>
+        </td>
+        <td>
+            <%=req.date%>
+        </td>
+        <form>
+            <row>
+                <div class="form-group">
+                    <input type="button" value="Completed">
+                    <input type="button" value="Cancel">
+                </div>
+            </row>
+        </form>
+        <% } %>
+    </tr>
     <% }); %>
-</ul>
+</table>
 <% include ./partials/footer.ejs %>
