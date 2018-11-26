@@ -102,6 +102,7 @@ app.get("/services", isLoggedIn, function (req, res) {
 
 app.post("/services", isLoggedIn, function (req, res) {
     req.body.request.date = moment(req.body.request.date, "HH:mm MM-DD-YYYY").toDate();
+    console.log(req.body.request);
     var leastBusy;
 
     Psychologist.find({}, function (err, allPyschologists) {
@@ -127,10 +128,8 @@ app.post("/services", isLoggedIn, function (req, res) {
             var leastLength = 10000000;
             availablePsychologists.forEach(function (eachAvailablePsychologist) {
                 if (eachAvailablePsychologist.schedule.length < leastLength) {
-                    console.log("iterate", eachAvailablePsychologist)
                     leastLength = eachAvailablePsychologist.schedule.length;
                     leastBusy = eachAvailablePsychologist;
-                    console.log("least busy:", leastBusy)
                 }
             });
         }
