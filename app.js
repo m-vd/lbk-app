@@ -123,6 +123,7 @@ app.post("/services", isLoggedIn, function (req, res) {
             //Find least busy psychologists out of available psychologists
             var leastLength = 10000000;
             availablePsychologists.forEach(function (eachAvailablePsychologist){
+                console.log(eachAvailablePsychologist);
                 if (eachAvailablePsychologist.schedule.length < leastLength) {
                     leastLength = eachAvailablePsychologist.schedule.length;
                     leastBusy = eachAvailablePsychologist;
