@@ -2,13 +2,18 @@
 
 <table>
     <% sessions.forEach(function (session){ %>
-        <tr><%=session.student.name%></tr>
-        <tr><%=session.student.psychologist%></tr>
+    <tr>
+        <%=session.student.name%>
+    </tr>
+    <tr>
+        <%=session.student.psychologist%>
+    </tr>
+    <tr>
         <form action="/sessions/<%=session._id%>" method="post">
-        <input type="text" name="remark" placeholder="catatan sesi">
-        <input type="submit">
-
+            <input type="text" name="remark" placeholder="catatan sesi">
+            <input type="submit">
         </form>
+    </tr>
     <% }) %>
 </table>
 

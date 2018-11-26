@@ -21,14 +21,17 @@
         <td>
             <%=req.date%>
         </td>
-        <form>
-            <row>
-                <div class="form-group">
-                    <input type="button" value="Completed">
-                    <input type="button" value="Cancel">
-                </div>
-            </row>
-        </form>
+        <td>
+            <form method="/sessionhistory" method="post">
+                <row>
+                    <div class="form-group">
+                        <input type="text" name="rid" value="<%=request._id%>" hidden>
+                        <input type="submit" name="completed" value="Completed">
+                        <input type="submit" name="cancel" value="Cancel">
+                    </div>
+                </row>
+            </form>
+        </td>
     </tr>
     <% }); %>
 </table>

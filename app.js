@@ -13,7 +13,8 @@ var express = require('express'),
 var Psychologist = require('./models/psychologist'),
     Student = require('./models/student'),
     Request = require('./models/request'),
-    Session = require('./models/session');
+    Session = require('./models/session'),
+    SessionHistory = require('./models/sessionhistory');
 
 app.use(cookieParser());
 app.use(require("express-session")({
@@ -43,7 +44,7 @@ app.set("view engine", "ejs");
 //     next();
 // });
 
-mongoose.connect(process.env.database_uri || "mongodb://localhost/lbk");
+mongoose.connect(process.env.database_uri || "mongodb://localhost/lbk", { useNewUrlParser: true });
 
 app.get("/", function (req, res) {
     res.render("index", { account: "" });
@@ -68,15 +69,23 @@ app.get("/login", function (req, res) {
                                 prodi: result.serviceResponse.authenticationSuccess[0].attributes[0].ou[0],
                                 email: result.serviceResponse.authenticationSuccess[0].attributes[0].mail[0]
                             }
-                            Student.create(newStudent, function (err, newStudent) {
+                            Student.findOne({ nim: newStudent.nim }, function (err, found) {
                                 if (err) {
                                     console.log(err);
-                                } else {
-                                    console.log("log    : Mahasiswa baru ditambahkan ke dalam database", newStudent.nim);
-                                    req.session.user = newStudent;
-                                    res.redirect("/");
-                                }
-                            });
+                                } else if (!found) {
+                                    Student.create(newStudent, function (err, newStudent) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            console.log("log    : Mahasiswa baru ditambahkan ke dalam database", newStudent.nim);
+                                            req.session.user = newStudent;
+                                            res.redirect("/");
+                                        }
+                                    });
+                                } else {}
+                            })
+
+
                         } else {
                             res.redirect("/login");
                         }
@@ -144,21 +153,21 @@ app.post("/services", isLoggedIn, function (req, res) {
                 console.log(request);
             }
         });
-        
+
         //Add request to the psychologist's schedule. 
-        Psychologist.find({username: leastBusy.name}, function(err, found){
+        Psychologist.find({ username: leastBusy.name }, function (err, found) {
             if (err) {
                 console.log(err);
             } else {
                 var addSchedule = {
                     start: req.body.request.date,
-                    end : moment(req.body.request.date).add(2, "h")
+                    end: moment(req.body.request.date).add(2, "h")
                 }
                 found.schedule.push(addSchedule);
                 found.save();
             }
         });
-        
+
         res.redirect("/services");
     });
 });
@@ -208,35 +217,48 @@ app.post("/requests/:id", function (req, res) {
     });
 });
 
-app.get("/sessions", function (req, res) {
-    Session.find({}).populate('psychologist').populate('student').exec(function (err, allSessions) {
-        if (err) {
-            console.log(err);
-        }
-        res.render("sessions", { sessions: allSessions });
-    });
-})
-
-app.post("/sessions/:id", function (req, res) {
-    Session.findById(req.params.id, function (err, session) {
+app.get("/sessionhistory", function (req, res) {
+    SessionHistory.find({}, function (err, allSessionHistory) {
         if (err) {
             console.log(err);
         } else {
-            if (req.body.remark.toLowerCase() == "selesai") {
-                console.log("log    : sesi selesai");
+            res.render("session", { sessions: allSessionHistory });
+        }
+    })
+});
+
+app.post("/sessionhistory", function (req, res) {
+    if (req.body.completed == "Completed") {
+        Request.findById(req.body.rid, function (err, r) {
+            if (err) {
+                console.log(err);
             } else {
-                session.remarks.push(req.body.remark);
-                session.save();
-                res.redirect("/");
+                var sh = {
+                    psychologist: r.psychologist,
+                    student: r.student,
+                    type: r.type,
+                    startTime: r.startTime,
+                    endTime: moment().format(),
+                    remark: ""
+                }
+                SessionHistory.create(sh, function (err, newSH) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("log    : new session history is made,", newSH);
+                    }
+                });
             }
+        });
+    }
+    Request.findByIdAndDelete(req.body.rid, function (err, dr) {
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect('back');
         }
     });
 });
-
-
-
-
-
 
 //LOGIN AND AUTH FOR PSYCHOLOGISTS
 app.get("/registerps", function (req, res) {
