@@ -111,13 +111,14 @@ app.post("/services", isLoggedIn, function (req, res) {
             //Find available psychologists
             var availablePsychologists = []
             allPyschologists.forEach(function(eachPsychologist){
-                console.log(eachPsychologist);
                 eachPsychologist.schedule.forEach(function(eachPsychologistSchedule){
                     if (moment(req.body.request.date).isBetween(eachPsychologistSchedule.start, eachPsychologistSchedule.end)){
                         eachPsychologist.available = false
                     }
-                console.log(eachPsychologist.available);
                 })
+                if (typeof(eachPsychologist.available) == "undefined") {
+                    eachPsychologist.available = true;
+                }
                 if (eachPsychologist.available) {
                     availablePsychologists.push(eachPsychologist);
                 }
