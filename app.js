@@ -82,7 +82,9 @@ app.get("/login", function (req, res) {
                                             res.redirect("/");
                                         }
                                     });
-                                } else {}
+                                } else {
+                                    res.redirect("/")
+                                }
                             })
 
 
