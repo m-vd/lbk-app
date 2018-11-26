@@ -104,19 +104,19 @@ app.post("/services", isLoggedIn, function (req, res) {
     req.body.request.date = moment(req.body.request.date, "HH:mm MM-DD-YYYY").toDate();
     var leastBusy;
 
-    Psychologist.find({}, function(err, allPyschologists){
+    Psychologist.find({}, function (err, allPyschologists) {
         if (err) {
-            console.log(err); 
+            console.log(err);
         } else {
             //Find available psychologists
             var availablePsychologists = []
-            allPyschologists.forEach(function(eachPsychologist){
-                eachPsychologist.schedule.forEach(function(eachPsychologistSchedule){
-                    if (moment(req.body.request.date).isBetween(eachPsychologistSchedule.start, eachPsychologistSchedule.end)){
+            allPyschologists.forEach(function (eachPsychologist) {
+                eachPsychologist.schedule.forEach(function (eachPsychologistSchedule) {
+                    if (moment(req.body.request.date).isBetween(eachPsychologistSchedule.start, eachPsychologistSchedule.end)) {
                         eachPsychologist.available = false
                     }
                 })
-                if (typeof(eachPsychologist.available) == "undefined") {
+                if (typeof (eachPsychologist.available) == "undefined") {
                     eachPsychologist.available = true;
                 }
                 if (eachPsychologist.available) {
@@ -125,7 +125,7 @@ app.post("/services", isLoggedIn, function (req, res) {
             })
             //Find least busy psychologists out of available psychologists
             var leastLength = 10000000;
-            availablePsychologists.forEach(function (eachAvailablePsychologist){
+            availablePsychologists.forEach(function (eachAvailablePsychologist) {
                 if (eachAvailablePsychologist.schedule.length < leastLength) {
                     console.log("iterate", eachAvailablePsychologist)
                     leastLength = eachAvailablePsychologist.schedule.length;
@@ -134,18 +134,18 @@ app.post("/services", isLoggedIn, function (req, res) {
                 }
             });
         }
+        //Create new request
+        var newRequest = req.body.request;
+        newRequest.psychologist = leastBusy.name;
+        Request.create(newRequest, function (err, request) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(request);
+            }
+        });
+        res.redirect("/services");
     });
-    //Create new request
-    var newRequest = req.body.request;
-    newRequest.psychologist = leastBusy.name;
-    Request.create(newRequest, function (err, request) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(request);
-        }
-    });
-    res.redirect("/services");
 });
 
 
