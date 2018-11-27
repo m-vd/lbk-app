@@ -4,7 +4,7 @@ var requestSchema = new mongoose.Schema({
     psychologist: String,
     student: String,
     type: String,
-    startTime: Date
+    date: Date
 
 });
 
