@@ -254,6 +254,7 @@ app.post("/sessionhistory", function (req, res) {
                             if (s.start == sh.startTime) {
                                 console.log("found same schedule")
                                 console.log("splicing", found.schedule.splice(i, 1));
+                                found.markModified('schedule');
                                 found.save();
                             }
                         });
