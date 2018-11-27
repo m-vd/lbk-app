@@ -101,7 +101,6 @@ app.get("/login", function (req, res) {
     }
 });
 
-
 app.get("/services", isLoggedIn, function (req, res) {
     Psychologist.find({}, function (err, allPyschologists) {
         if (err) {
@@ -175,13 +174,12 @@ app.post("/services", isLoggedIn, function (req, res) {
     });
 });
 
-
 app.get("/requests", function (req, res) {
     Request.find({}, function (err, allRequests) {
         if (err) {
             console.log(err);
         } else {
-            res.render("requests", { requests: allRequests, user: req.session.user, moment: moment });
+            res.render("requests", { requests: allRequests, moment: moment });
         }
     });
 });
@@ -307,10 +305,19 @@ app.post("/loginps", passport.authenticate("local", {
 });
 
 app.get("/scheduleps", isPsyLoggedIn, function (req, res) {
+
+    Psychologist.findOne({username: req.user.username}, function(err, psy){
+        if (err) {
+            console.log(err);
+        } else {
+            res.render("scheduleps", {psychologist:psy})
+        }
+    })
     res.render("scheduleps");
 });
 
 app.post("/scheduleps", isPsyLoggedIn, function (req, res) {
+
     Psychologist.findOne({ username: req.user.username }, function (err, psy) {
         if (err) {
             console.log(err);

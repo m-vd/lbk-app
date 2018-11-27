@@ -1,5 +1,24 @@
 <% include ./partials/header.ejs %>
 
+<table>
+    <% psychologist.schedule.forEach(function (s){ %>
+    <tr>
+        <td>
+            <%=s.start%>
+        </td>
+        <td>
+            <%=s.end%>
+        </td>
+        <td>
+            <form action="/sessions/<%=session._id%>" method="post">
+                <input type="text" name="remark" placeholder="catatan sesi">
+                <input type="submit">
+            </form>
+        </td>
+    </tr>
+    <% }) %>
+</table>
+
 <form action="/scheduleps" method="post">
     <div class="form-group">
         <input id="startTime" width="312" name="startTime" required />
