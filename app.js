@@ -225,10 +225,11 @@ app.get("/sessionhistory", function (req, res) {
         } else {
             res.render("sessions", { sessions: allSessionHistory });
         }
-    })
+    });
 });
 
 app.post("/sessionhistory", function (req, res) {
+    console.log("log    : ", req.body);
     if (req.body.completed == "Completed") {
         Request.findById(req.body.rid, function (err, r) {
             if (err) {
@@ -242,7 +243,6 @@ app.post("/sessionhistory", function (req, res) {
                     endTime: moment().format(),
                     remark: ""
                 }
-
                 Psychologist.findOne({ username: r.pscyhologist }, function (err, found) {
                     if (err) { console.log(err); }
                     else {
@@ -250,10 +250,9 @@ app.post("/sessionhistory", function (req, res) {
                             if (s.start == r.startTime){
                                 found.schedule.splice(i,1);
                             }
-                        })
+                        });
                     }
-                })
-
+                });
                 SessionHistory.create(sh, function (err, newSH) {
                     if (err) {
                         console.log(err);
