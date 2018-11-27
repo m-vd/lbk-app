@@ -87,8 +87,6 @@ app.get("/login", function (req, res) {
                                     res.redirect("/");
                                 }
                             })
-
-
                         } else {
                             res.redirect("/login");
                         }
@@ -99,6 +97,10 @@ app.get("/login", function (req, res) {
             res.redirect(encodeURI("https://login.itb.ac.id/cas/" + "login?service=" + "https://" + req.headers.host + "/login"))
         }
     }
+});
+
+app.get("/logout", isLoggedIn, function(req, res){
+    res.clearCookie('user_sid');
 });
 
 app.get("/services", isLoggedIn, function (req, res) {
@@ -144,7 +146,6 @@ app.post("/services", isLoggedIn, function (req, res) {
                 }
             });
         }
-
         //Create new request
         var newRequest = req.body.request;
         newRequest.psychologist = leastBusy.name;
@@ -318,7 +319,6 @@ app.get("/scheduleps", isPsyLoggedIn, function (req, res) {
 });
 
 app.post("/scheduleps", isPsyLoggedIn, function (req, res) {
-
     Psychologist.findOne({ username: req.user.username }, function (err, psy) {
         if (err) {
             console.log(err);
