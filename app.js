@@ -246,30 +246,30 @@ app.post("/sessionhistory", function (req, res) {
                     if (err) { console.log(err); }
                     else {
                         console.log(found);
-                        found.schedule.forEach(function(s, i){
-                            if (s.start == r.startTime){
-                                found.schedule.splice(i,1);
+                        found.schedule.forEach(function (s, i) {
+                            if (s.start == r.startTime) {
+                                found.schedule.splice(i, 1);
                             }
                         });
-                    }
-                });
-                SessionHistory.create(sh, function (err, newSH) {
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        console.log("log    : new session history is made,", newSH);
+                        SessionHistory.create(sh, function (err, newSH) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                console.log("log    : new session history is made,", newSH);
+                            }
+                        });
+                        Request.findByIdAndDelete(req.body.rid, function (err, dr) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.redirect('back');
+                            }
+                        });
                     }
                 });
             }
         });
     }
-    Request.findByIdAndDelete(req.body.rid, function (err, dr) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect('back');
-        }
-    });
 });
 
 //LOGIN AND AUTH FOR PSYCHOLOGISTS
@@ -305,11 +305,11 @@ app.post("/loginps", passport.authenticate("local", {
 
 app.get("/scheduleps", isPsyLoggedIn, function (req, res) {
 
-    Psychologist.findOne({username: req.user.username}, function(err, psy){
+    Psychologist.findOne({ username: req.user.username }, function (err, psy) {
         if (err) {
             console.log(err);
         } else {
-            res.render("scheduleps", {psychologist:psy})
+            res.render("scheduleps", { psychologist: psy })
         }
     })
     res.render("scheduleps");
