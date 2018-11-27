@@ -99,8 +99,9 @@ app.get("/login", function (req, res) {
     }
 });
 
-app.get("/logout", isLoggedIn, function(req, res){
+app.get("/logout", function(req, res){
     res.clearCookie('user_sid');
+    res.redirect("/");
 });
 
 app.get("/services", isLoggedIn, function (req, res) {
@@ -248,13 +249,15 @@ app.post("/sessionhistory", function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(found);
+                        console.log("before: ", found.schedule)
                         found.schedule.forEach(function (s, i) {
                             if (s.start == sh.startTime) {
-                                found.schedule.splice(i, 1);
+                                console.log("found same schedule")
+                                console.log("splicing", found.schedule.splice(i, 1));
                                 found.save();
                             }
                         });
+                        console.log("after: ", found.schedule)
                         SessionHistory.create(sh, function (err, newSH) {
                             if (err) {
                                 console.log(err);
