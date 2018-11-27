@@ -252,7 +252,7 @@ app.post("/sessionhistory", function (req, res) {
                         found.schedule.forEach(function (s, i) {
                             console.log(s.start);
                             console.log(sh.startTime);
-                            if (s.start == sh.startTime) {
+                            if (moment(s.start).isSame(sh.startTime)) {
                                 console.log("splicing", found.schedule.splice(i, 1));
                                 found.markModified('schedule');
                                 found.save();
