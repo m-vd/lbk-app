@@ -242,12 +242,12 @@ app.post("/sessionhistory", function (req, res) {
                     endTime: moment().format(),
                     remark: ""
                 }
-                Psychologist.findOne({ username: r.pscyhologist }, function (err, found) {
+                Psychologist.findOne({ name: sh.pscyhologist }, function (err, found) {
                     if (err) { console.log(err); }
                     else {
                         console.log(found);
                         found.schedule.forEach(function (s, i) {
-                            if (s.start == r.startTime) {
+                            if (s.start == sh.startTime) {
                                 found.schedule.splice(i, 1);
                             }
                         });
@@ -258,16 +258,17 @@ app.post("/sessionhistory", function (req, res) {
                                 console.log("log    : new session history is made,", newSH);
                             }
                         });
-                        Request.findByIdAndDelete(req.body.rid, function (err, dr) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                res.redirect('back');
-                            }
-                        });
+
                     }
                 });
             }
+            Request.findByIdAndDelete(req.body.rid, function (err, dr) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.redirect('back');
+                }
+            });
         });
     }
 });
