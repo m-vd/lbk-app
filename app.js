@@ -249,16 +249,15 @@ app.post("/sessionhistory", function (req, res) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log("before: ", found.schedule)
                         found.schedule.forEach(function (s, i) {
+                            console.log(s.start);
+                            console.log(sh.startTime);
                             if (s.start == sh.startTime) {
-                                console.log("found same schedule")
                                 console.log("splicing", found.schedule.splice(i, 1));
                                 found.markModified('schedule');
                                 found.save();
                             }
                         });
-                        console.log("after: ", found.schedule)
                         SessionHistory.create(sh, function (err, newSH) {
                             if (err) {
                                 console.log(err);
