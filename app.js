@@ -251,6 +251,7 @@ app.post("/sessionhistory", function (req, res) {
                         found.schedule.forEach(function (s, i) {
                             if (s.start == sh.startTime) {
                                 found.schedule.splice(i, 1);
+                                found.save();
                             }
                         });
                         SessionHistory.create(sh, function (err, newSH) {
@@ -314,7 +315,6 @@ app.get("/scheduleps", isPsyLoggedIn, function (req, res) {
             res.render("scheduleps", { psychologist: psy })
         }
     })
-    res.render("scheduleps");
 });
 
 app.post("/scheduleps", isPsyLoggedIn, function (req, res) {
