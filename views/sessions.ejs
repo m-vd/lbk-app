@@ -4,10 +4,10 @@
     <% sessions.forEach(function (session){ %>
     <tr>
         <td>
-            <%=session.student.name%>
+            <%=session.student%>
         </td>
         <td>
-            <%=session.student.psychologist%>
+            <%=session.psychologist%>
         </td>
         <td>
             <form action="/sessions/<%=session._id%>" method="post">
