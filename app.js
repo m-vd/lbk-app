@@ -229,7 +229,6 @@ app.get("/sessionhistory", function (req, res) {
 });
 
 app.post("/sessionhistory", function (req, res) {
-    console.log("log    : ", req.body);
     if (req.body.completed == "Completed") {
         Request.findById(req.body.rid, function (err, r) {
             if (err) {
@@ -239,13 +238,14 @@ app.post("/sessionhistory", function (req, res) {
                     psychologist: r.psychologist,
                     student: r.student,
                     type: r.type,
-                    startTime: r.startTime,
+                    startTime: r.date,
                     endTime: moment().format(),
                     remark: ""
                 }
                 Psychologist.findOne({ username: r.pscyhologist }, function (err, found) {
                     if (err) { console.log(err); }
                     else {
+                        console.log(found);
                         found.schedule.forEach(function(s, i){
                             if (s.start == r.startTime){
                                 found.schedule.splice(i,1);
